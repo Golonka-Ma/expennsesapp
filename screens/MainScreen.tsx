@@ -1,19 +1,49 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { SafeAreaView, Text, View, StyleSheet } from 'react-native';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../FirebaseConfig';
+import { auth } from '../FirebaseConfig';
+import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const MainScreen: React.FC = () => {
-  const handleLogout = () => {
-    // Tutaj można umieścić kod do wylogowania użytkownika, jeśli jest taka funkcjonalność dostępna
-    console.log('Wylogowano użytkownika');
-  };
+  const [userName, setUserName] = useState<string>('');
+  const navigation = useNavigation();
+
+  const fetchUserName = useCallback(async () => {
+    try {
+      const currentUser = auth.currentUser;
+      console.log(currentUser);
+      if (currentUser) {
+        const userUID = currentUser.uid;
+        const docRef = doc(db, 'users', userUID); 
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setUserName(userData.username);
+        } else {
+          console.log('Document not found!');
+        }
+      } else {
+        console.log('User not logged in!');
+        navigation.navigate('Login'); // Przekieruj użytkownika do ekranu logowania
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }, [navigation]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserName();
+    }, [fetchUserName])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Witaj na ekranie głównym!</Text>
-        <TouchableOpacity onPress={handleLogout} style={styles.button}>
-          <Text style={styles.buttonText}>Wyloguj</Text>
-        </TouchableOpacity>
+        <Text style={styles.title}>Witaj {userName} na ekranie głównym!</Text>
       </View>
     </SafeAreaView>
   );
@@ -22,27 +52,14 @@ const MainScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
   },
   content: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: 'blue',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
     fontWeight: 'bold',
   },
 });
