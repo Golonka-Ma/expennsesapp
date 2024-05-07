@@ -80,7 +80,7 @@ const ExpensesScreen: React.FC = () => {
         console.error('Podana cena jest nieprawidłowa!');
         return;
       }
-  
+
       const formattedPrice = parsedPrice.toFixed(2);
 
       if (selectedExpense) {
@@ -98,7 +98,7 @@ const ExpensesScreen: React.FC = () => {
           data: new Date().toISOString()
         });
       }
-  
+
       handleCancelAddExpense();
     } catch (error) {
       console.error('Błąd podczas zapisywania wydatku:', error);
@@ -163,7 +163,7 @@ const ExpensesScreen: React.FC = () => {
               <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteExpense(selectedExpense.id)}>
                 <FontAwesome name="trash" size={24} color="white" />
               </TouchableOpacity>
-              
+
             </View>
           )}
           {isAddingExpense && (
@@ -190,6 +190,9 @@ const ExpensesScreen: React.FC = () => {
           <Modal visible={showModal} animationType="slide">
             <SafeAreaView>
               <View style={styles.modalContent}>
+                <TouchableOpacity style={styles.backButton} onPress={() => setShowModal(false)}>
+                  <FontAwesome name="arrow-left" size={24} color="black" />
+                </TouchableOpacity>
                 <Text style={styles.title3}>Wybierz produkt z listy:</Text>
                 <FlatList
                   data={[
@@ -205,15 +208,15 @@ const ExpensesScreen: React.FC = () => {
                     { name: 'Taxi', icon: 'taxi' },
                     { name: 'Internet', icon: 'wifi' },
                     { name: 'Prąd', icon: 'plug' },
-                    { name: 'Restauracje', icon: 'cutlery' }, 
-                    { name: 'Rozrywka', icon: 'beer' },    
-                    { name: 'Ogrzewanie', icon: 'thermometer-three-quarters' },        
+                    { name: 'Restauracje', icon: 'cutlery' },
+                    { name: 'Rozrywka', icon: 'beer' },
+                    { name: 'Ogrzewanie', icon: 'thermometer-three-quarters' },
                     { name: 'Telewizja', icon: 'television' },
                     { name: 'Prezent urodzinowy', icon: 'birthday-cake' },
                     { name: 'Spotify', icon: 'spotify' },
                     { name: 'Abonament', icon: 'mobile' },
                     { name: 'Elektronika', icon: 'laptop' },
-                    { name: 'Mandaty', icon: 'money' },   
+                    { name: 'Mandaty', icon: 'money' },
                   ]}
                   renderItem={({ item }) => (
                     <TouchableOpacity
@@ -255,7 +258,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    marginTop:15,
+    marginTop: 15,
     fontSize: 24,
     fontWeight: 'bold',
     color: "#800000",
@@ -269,8 +272,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: "#800000",
-    marginStart:15,
-    marginBottom:15,
+    marginStart: 15,
+    marginBottom: 15,
   },
   addButton: {
     position: 'absolute',
@@ -295,14 +298,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffa500',
     padding: 10,
     borderRadius: 50,
-    marginTop:10,
+    marginTop: 10,
     marginRight: 10,
   },
   deleteButton: {
     backgroundColor: '#800000',
     padding: 10,
     borderRadius: 50,
-    marginTop:10,
+    marginTop: 10,
     marginRight: 10,
   },
   closeButton: {
@@ -312,7 +315,6 @@ const styles = StyleSheet.create({
 
   },
   addExpenseContainer: {
-    backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
     marginTop: 20,
@@ -385,7 +387,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     marginTop: 50,
-    marginBottom:100,
+    marginBottom: 100,
   },
   item: {
     padding: 20,
@@ -393,6 +395,11 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    top: -30,
+    left: 10,
   },
 });
 
