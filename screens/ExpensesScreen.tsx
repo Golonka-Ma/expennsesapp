@@ -16,7 +16,7 @@ const ExpensesScreen: React.FC = () => {
   const [expenses, setExpenses] = useState<any[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedExpense, setSelectedExpense] = useState<any>(null);
-  const [showActions, setShowActions] = useState<boolean>(false); // Dodany stan dla widoczności przycisków "Usuń" i "Dodaj"
+  const [showActions, setShowActions] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const fetchUserName = useCallback(async () => {
@@ -61,7 +61,7 @@ const ExpensesScreen: React.FC = () => {
 
   const handleAddExpense = () => {
     setIsAddingExpense(true);
-    setShowActions(false); // Ukryj przyciski "Usuń" i "Dodaj" po kliknięciu na przycisk dodawania
+    setShowActions(false);
   };
 
   const handleCancelAddExpense = () => {
@@ -111,7 +111,7 @@ const ExpensesScreen: React.FC = () => {
     setSelectedIcon(item.icon);
     setSelectedExpense(item);
     setIsAddingExpense(true);
-    setShowActions(false); // Ukryj przyciski "Usuń" i "Dodaj" po kliknięciu na element listy
+    setShowActions(false);
   };
 
   const handleDeleteExpense = async (itemId: string) => {
@@ -134,7 +134,7 @@ const ExpensesScreen: React.FC = () => {
 
   const handlePress = (item: any) => {
     setSelectedExpense(item);
-    setShowActions(true); // Wyświetl przyciski "Usuń" i "Dodaj" po kliknięciu na element listy
+    setShowActions(true);
   };
 
   return (
@@ -255,6 +255,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
+    marginTop:15,
     fontSize: 24,
     fontWeight: 'bold',
     color: "#800000",
