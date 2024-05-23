@@ -104,21 +104,23 @@ const MainScreen: React.FC = () => {
       >
         <View style={styles.container}>
           <View style={styles.section}>
-            <Text style={styles.title}>Podsumowanie:</Text>
-            <Text>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
-            <Text>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
-            <Text>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
-            <Text>Twój tygodniowy limit: {weeklyLimit} PLN</Text>
-            <Text>Twój miesięczny limit: {monthlyLimit} PLN</Text>
-            <Text>Twój roczny limit: {yearlyLimit} PLN</Text>
-            <Text>Twój budżet: {budget} PLN</Text>
+            <Text style={styles.title}>Podsumowanie twoich wydatków:</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
+            <Text style={styles.subtitle}>Twoje limity oraz budżet:</Text>
+            <Text style={styles.normaltext}>Twój tygodniowy limit: {weeklyLimit} PLN</Text>
+            <Text style={styles.normaltext}>Twój miesięczny limit: {monthlyLimit} PLN</Text>
+            <Text style={styles.normaltext}>Twój roczny limit: {yearlyLimit} PLN</Text>
+            <Text style={styles.normaltext}>Twój budżet: {budget} PLN</Text>
+            <Text style={styles.title2}>Wykres wydatków:</Text>
           </View>
 
           <View style={styles.chartContainer}>
             <Progress.Circle
               style={{ height: 100, width: 100}}
               progress={weeklyLimit ? weeklyExpenseSum / weeklyLimit : 0}
-              color={'tomato'}
+              color={'red'}
               size={90}
               thickness={12}
               showsText={true}
@@ -127,7 +129,7 @@ const MainScreen: React.FC = () => {
             <Progress.Circle
               style={{ height: 100, width: 100 }}
               progress={monthlyLimit ? monthlyExpenseSum / monthlyLimit : 0}
-              color={'orange'}
+              color={'green'}
               size={90}
               thickness={12}
               showsText={true}
@@ -136,7 +138,7 @@ const MainScreen: React.FC = () => {
             <Progress.Circle
               style={{ height: 100, width: 100 }}
               progress={yearlyLimit ? yearlyExpenseSum / yearlyLimit : 0}
-              color={'green'}
+              color={'blue'}
               size={90}
               thickness={12}
               showsText={true}
@@ -175,6 +177,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:"#800000",
+  },
+  title2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop:20,
+    color:"#800000",
+  },
+  subtitle:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop:20,
+    color:"#800000",
+  },
+  normaltext:{
+    color:"black",
   },
   chartContainer: {
     flexDirection: 'row',
@@ -198,6 +218,7 @@ const styles = StyleSheet.create({
   },
   expenseText: {
     fontSize: 16,
+    color:"black",
   },
   chartext:{
     fontSize:18,
