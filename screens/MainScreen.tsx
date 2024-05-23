@@ -4,6 +4,7 @@ import { db } from '../FirebaseConfig';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth } from '../FirebaseConfig';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as Progress from 'react-native-progress';
 
 const MainScreen: React.FC = () => {
   const [weeklyExpenseSum, setWeeklyExpenseSum] = useState<number>(0);
@@ -94,8 +95,7 @@ const MainScreen: React.FC = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/white.jpg')} 
-    style={styles.backgroundImage}>
+    <ImageBackground source={require('../assets/white.jpg')} style={styles.backgroundImage}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         refreshControl={
@@ -112,6 +112,24 @@ const MainScreen: React.FC = () => {
             <Text>Twój miesięczny limit: {monthlyLimit} PLN</Text>
             <Text>Twój roczny limit: {yearlyLimit} PLN</Text>
             <Text>Twój budżet: {budget} PLN</Text>
+          </View>
+
+          <View style={styles.chartContainer}>
+            <Progress.Circle
+              style={{ height: 100, width: 100 }}
+              progress={weeklyLimit ? weeklyExpenseSum / weeklyLimit : 0}
+              color={'tomato'}
+            />
+            <Progress.Circle
+              style={{ height: 100, width: 100 }}
+              progress={monthlyLimit ? monthlyExpenseSum / monthlyLimit : 0}
+              color={'orange'}
+            />
+            <Progress.Circle
+              style={{ height: 100, width: 100 }}
+              progress={yearlyLimit ? yearlyExpenseSum / yearlyLimit : 0}
+              color={'green'}
+            />
           </View>
 
           <View style={styles.section}>
@@ -145,6 +163,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  chartContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  chartText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   expense: {
     flexDirection: 'row',
