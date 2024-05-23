@@ -45,7 +45,7 @@ const MainScreen: React.FC = () => {
         if (expenseData.uid === userUID) {
           const expenseAmount = parseFloat(expenseData.cena);
           const expenseDate = new Date(expenseData.data);
-          
+
           if (expenseDate >= startOfWeek && expenseDate <= endOfWeek) {
             weeklySum += expenseAmount;
           }
@@ -116,12 +116,17 @@ const MainScreen: React.FC = () => {
             <Text style={styles.title2}>Wykres wydatków:</Text>
           </View>
 
+          <View style={styles.containertext}>
+            <Text style={styles.chartLabel}>Aktualny miesiąc</Text>
+            <Text style={styles.chartLabel}>Aktualny miesiąc</Text>
+            <Text style={styles.chartLabel}>Rok</Text>
+          </View>
           <View style={styles.chartContainer}>
             <Progress.Circle
-              style={{ height: 100, width: 100}}
+              style={{ height: 100, width: 100 }}
               progress={weeklyLimit ? weeklyExpenseSum / weeklyLimit : 0}
               color={'red'}
-              size={90}
+              size={97}
               thickness={12}
               showsText={true}
               textStyle={styles.chartext}
@@ -130,7 +135,7 @@ const MainScreen: React.FC = () => {
               style={{ height: 100, width: 100 }}
               progress={monthlyLimit ? monthlyExpenseSum / monthlyLimit : 0}
               color={'green'}
-              size={90}
+              size={97}
               thickness={12}
               showsText={true}
               textStyle={styles.chartext}
@@ -139,7 +144,7 @@ const MainScreen: React.FC = () => {
               style={{ height: 100, width: 100 }}
               progress={yearlyLimit ? yearlyExpenseSum / yearlyLimit : 0}
               color={'blue'}
-              size={90}
+              size={97}
               thickness={12}
               showsText={true}
               textStyle={styles.chartext}
@@ -171,35 +176,41 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 5,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color:"#800000",
+    color: "#800000",
   },
   title2: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    marginTop:20,
-    color:"#800000",
+    marginTop: 20,
+    color: "#800000",
   },
-  subtitle:{
+  subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    marginTop:20,
-    color:"#800000",
+    marginTop: 20,
+    color: "#800000",
   },
-  normaltext:{
-    color:"black",
+  normaltext: {
+    color: "black",
   },
   chartContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 20,
+    marginBottom: 25,
+    marginTop: 15,
+    alignItems: "flex-end",
+  },
+  containertext: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   chartText: {
     fontSize: 16,
@@ -218,12 +229,18 @@ const styles = StyleSheet.create({
   },
   expenseText: {
     fontSize: 16,
-    color:"black",
+    color: "black",
   },
-  chartext:{
-    fontSize:18,
-    fontWeight:"bold",
-  }
+  chartext: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  chartLabel: {
+    marginTop: 15,
+    fontSize: 16,
+    color: "black",
+    fontWeight: "bold",
+  },
 });
 
 export default MainScreen;
