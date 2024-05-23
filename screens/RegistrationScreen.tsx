@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   useColorScheme,
+  ImageBackground,
   View,
   Alert,
 } from 'react-native';
@@ -16,6 +17,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
+import { FIREBASE_APP } from '../FirebaseConfig';
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const Section: React.FC<SectionProps> = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -40,11 +43,25 @@ const RegistrationScreen: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const firestore = getFirestore(FIREBASE_APP);
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      // Jeśli rejestracja powiedzie się, przenieś użytkownika do ekranu logowania
+      // Utwórz użytkownika w systemie uwierzytelniania Firebase
+      const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      // Pobierz UID nowego użytkownika
+      const uid = userCredential.user.uid;
+      
+      // Ustaw nazwę dokumentu jako UID nowego użytkownika
+      const userDocRef = doc(firestore, "users", uid);
+      
+      // Zapisz dane użytkownika do Firestore
+      await setDoc(userDocRef, {
+        uid: uid,
+        username: username,
+        email: email,
+      });
+  
       console.log('Rejestracja pomyślna');
       navigation.navigate('Login'); // Przenieś użytkownika do ekranu logowania
     } catch (error) {
@@ -52,18 +69,26 @@ const RegistrationScreen: React.FC = () => {
       Alert.alert('Błąd rejestracji', 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie.');
     }
   };
+  
+  
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <StatusBar barStyle="dark-content" />
+     <StatusBar translucent backgroundColor="transparent" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.screenContainer}>
+        <ImageBackground
+          source={require('../assets/white.jpg')} // Ścieżka do twojego obrazu tła
+          style={styles.backgroundImage}
+        >
         <View style={styles.formContainer}>
-          <Section title="Registration">
+        <Text style={styles.titletext}>Rejestracja</Text>  
+        <Text style={styles.bottomtext}>Zaloguj się aby kontynuować</Text>
+          <Section title="">
             <TextInput
               style={styles.input}
-              placeholder="Username"
+              placeholder="Nazwa"
               autoCapitalize="none"
               onChangeText={setUsername}
               value={username}
@@ -78,16 +103,17 @@ const RegistrationScreen: React.FC = () => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Password"
+              placeholder="Hasło"
               secureTextEntry
               onChangeText={setPassword}
               value={password}
             />
             <TouchableOpacity onPress={handleRegister} style={styles.button}>
-              <Text style={styles.buttonText}>Register</Text>
+              <Text style={styles.buttonText}>Zarejestruj się</Text>
             </TouchableOpacity>
           </Section>
         </View>
+        </ImageBackground>
       </ScrollView>
     </SafeAreaView>
   );
@@ -96,33 +122,52 @@ const RegistrationScreen: React.FC = () => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: Colors.white,
+  },
+  backgroundImage: {
+    flex: 1,
+    height:850,
+    resizeMode: 'cover',
   },
   formContainer: {
-    paddingHorizontal: 20,
-    marginTop: 50,
+    paddingHorizontal: 50,
+    marginTop: 150,
   },
   sectionContainer: {
-    marginTop: 24,
+    marginTop: 10,
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 45,
+    fontWeight: 'bold',
+  },
+  titletext: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    marginBottom: 1,
+    color: '#800000',
+  },
+  bottomtext:{
+    fontSize: 19,
+    paddingLeft: 20,
+    fontWeight:"bold",
   },
   input: {
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
+    borderBottomWidth: 1,
+    marginBottom: 25,
     paddingHorizontal: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    color: 'black', 
   },
   button: {
-    backgroundColor: 'blue',
+    marginTop:45,
+    backgroundColor: '#800000',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     alignItems: 'center',
   },
   buttonText: {
+    fontSize:20,
     color: 'white',
     fontWeight: 'bold',
   },
