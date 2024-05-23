@@ -104,16 +104,16 @@ const MainScreen: React.FC = () => {
       >
         <View style={styles.container}>
           <View style={styles.section}>
-            <Text style={styles.title}>Podsumowanie twoich wydatków:</Text>
-            <Text style={styles.normaltext}>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
-            <Text style={styles.normaltext}>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
-            <Text style={styles.normaltext}>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
-            <Text style={styles.subtitle}>Twoje limity oraz budżet:</Text>
+          <Text style={styles.title}>Twoje limity oraz budżet:</Text>
             <Text style={styles.normaltext}>Twój tygodniowy limit: {weeklyLimit} PLN</Text>
             <Text style={styles.normaltext}>Twój miesięczny limit: {monthlyLimit} PLN</Text>
             <Text style={styles.normaltext}>Twój roczny limit: {yearlyLimit} PLN</Text>
             <Text style={styles.normaltext}>Twój budżet: {budget} PLN</Text>
-            <Text style={styles.title2}>Wykres wydatków:</Text>
+            <Text style={styles.subtitle}>Podsumowanie twoich wydatków:</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
+            <Text style={styles.normaltext}>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
+    
           </View>
 
           <View style={styles.containertext}>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   chartLabel: {
     marginTop: 15,
     fontSize: 16,
-    color: "black",
+    color: "#800000",
     fontWeight: "bold",
   },
 });
