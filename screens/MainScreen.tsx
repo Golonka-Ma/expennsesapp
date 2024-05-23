@@ -116,19 +116,31 @@ const MainScreen: React.FC = () => {
 
           <View style={styles.chartContainer}>
             <Progress.Circle
-              style={{ height: 100, width: 100 }}
+              style={{ height: 100, width: 100}}
               progress={weeklyLimit ? weeklyExpenseSum / weeklyLimit : 0}
               color={'tomato'}
+              size={90}
+              thickness={12}
+              showsText={true}
+              textStyle={styles.chartext}
             />
             <Progress.Circle
               style={{ height: 100, width: 100 }}
               progress={monthlyLimit ? monthlyExpenseSum / monthlyLimit : 0}
               color={'orange'}
+              size={90}
+              thickness={12}
+              showsText={true}
+              textStyle={styles.chartext}
             />
             <Progress.Circle
               style={{ height: 100, width: 100 }}
               progress={yearlyLimit ? yearlyExpenseSum / yearlyLimit : 0}
               color={'green'}
+              size={90}
+              thickness={12}
+              showsText={true}
+              textStyle={styles.chartext}
             />
           </View>
 
@@ -187,6 +199,10 @@ const styles = StyleSheet.create({
   expenseText: {
     fontSize: 16,
   },
+  chartext:{
+    fontSize:18,
+    fontWeight:"bold",
+  }
 });
 
 export default MainScreen;
