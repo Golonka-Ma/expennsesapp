@@ -187,14 +187,14 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
     marginTop: 20,
     color: "#800000",
   },
   subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
     marginTop: 20,
     color: "#800000",
   },
@@ -204,8 +204,8 @@ const styles = StyleSheet.create({
   chartContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 25,
-    marginTop: 15,
+    marginBottom: 45,
+    marginTop: 25,
     alignItems: "flex-end",
   },
   containertext: {
