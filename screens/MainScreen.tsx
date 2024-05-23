@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, RefreshControl, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, RefreshControl, StyleSheet, ImageBackground } from 'react-native';
 import { db } from '../FirebaseConfig';
-import { collection, getDocs, doc, getDoc, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth } from '../FirebaseConfig';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -18,7 +18,6 @@ const MainScreen: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      // Pobieranie danych dotyczących wydatków
       const currentDate = new Date();
       const startOfWeek = new Date(currentDate);
       startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1);
@@ -65,9 +64,8 @@ const MainScreen: React.FC = () => {
       setWeeklyExpenseSum(weeklySum);
       setMonthlyExpenseSum(monthlySum);
       setYearlyExpenseSum(yearlySum);
-      setRecentExpenses(recentExpensesData.slice(0, 3)); // Wybieramy tylko trzy ostatnie wydatki
+      setRecentExpenses(recentExpensesData.slice(0, 3));
 
-      // Pobieranie danych dotyczących użytkownika
       const userDocRef = doc(db, 'users', userUID);
       const userDocSnapshot = await getDoc(userDocRef);
       if (userDocSnapshot.exists()) {
@@ -96,39 +94,46 @@ const MainScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-      }
-    >
-      <View style={styles.container}>
-        <View style={styles.section}>
-          <Text style={styles.title}>Podsumowanie:</Text>
-          <Text>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
-          <Text>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
-          <Text>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
-          <Text>Twój tygodniowy limit: {weeklyLimit} PLN</Text>
-          <Text>Twój miesięczny limit: {monthlyLimit} PLN</Text>
-          <Text>Twój roczny limit: {yearlyLimit} PLN</Text>
-          <Text>Twój budżet: {budget} PLN</Text>
-        </View>
+    <ImageBackground source={require('../assets/white.jpg')} 
+    style={styles.backgroundImage}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
+      >
+        <View style={styles.container}>
+          <View style={styles.section}>
+            <Text style={styles.title}>Podsumowanie:</Text>
+            <Text>Suma wydatków w bieżącym tygodniu: {weeklyExpenseSum} PLN</Text>
+            <Text>Suma wydatków w bieżącym miesiącu: {monthlyExpenseSum} PLN</Text>
+            <Text>Suma wydatków w bieżącym roku: {yearlyExpenseSum} PLN</Text>
+            <Text>Twój tygodniowy limit: {weeklyLimit} PLN</Text>
+            <Text>Twój miesięczny limit: {monthlyLimit} PLN</Text>
+            <Text>Twój roczny limit: {yearlyLimit} PLN</Text>
+            <Text>Twój budżet: {budget} PLN</Text>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.title}>Ostatnie wydatki:</Text>
-          {recentExpenses.map((expense, index) => (
-            <View key={index} style={styles.expense}>
-              <FontAwesome name={expense.icon} size={25} color="black" style={styles.icon} />
-              <Text style={styles.expenseText}>{expense.nazwa} - {expense.cena} PLN</Text>
-            </View>
-          ))}
+          <View style={styles.section}>
+            <Text style={styles.title}>Ostatnie wydatki:</Text>
+            {recentExpenses.map((expense, index) => (
+              <View key={index} style={styles.expense}>
+                <FontAwesome name={expense.icon} size={25} color="black" style={styles.icon} />
+                <Text style={styles.expenseText}>{expense.nazwa} - {expense.cena} PLN</Text>
+              </View>
+            ))}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
     padding: 20,
